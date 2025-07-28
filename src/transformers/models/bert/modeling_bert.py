@@ -968,6 +968,7 @@ class BertModel(BertPreTrainedModel):
             inputs_embeds=inputs_embeds,
             past_key_values_length=past_key_values_length,
         )
+        print(f"[DEBUG] Embedding output shape: {embedding_output.shape}")
 
         if attention_mask is None:
             attention_mask = torch.ones((batch_size, seq_length + past_key_values_length), device=device)
@@ -1039,7 +1040,9 @@ class BertModel(BertPreTrainedModel):
             cache_position=cache_position,
         )
         sequence_output = encoder_outputs[0]
+        print(f"[DEBUG] Encoder output shape: {sequence_output.shape}")
         pooled_output = self.pooler(sequence_output) if self.pooler is not None else None
+        print(f"[DEBUG] Pooled output shape: {pooled_output.shape}")
 
         if not return_dict:
             return (sequence_output, pooled_output) + encoder_outputs[1:]
